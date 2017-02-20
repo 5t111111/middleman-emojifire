@@ -1,14 +1,10 @@
-require 'bundler'
-Bundler::GemHelper.install_tasks
+require "bundler/gem_tasks"
+require "rake/testtask"
 
-require 'cucumber/rake/task'
-
-Cucumber::Rake::Task.new(:cucumber, 'Run features that should pass') do |t|
-  t.cucumber_opts = '--color --tags ~@wip --strict'
+Rake::TestTask.new(:test) do |t|
+  t.libs << "test"
+  t.libs << "lib"
+  t.test_files = FileList['test/**/*_test.rb']
 end
 
-require 'rake/clean'
-
-task test: ['cucumber']
-
-task default: :test
+task :default => :test
